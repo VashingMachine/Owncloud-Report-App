@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<info>
+    <id>report</id>
+    <name>Report</name>
+    <description>My first ownCloud app</description>
+    <licence>AGPL</licence>
+    <author>Dariusz Kwiatkowski</author>
+    <version>0.0.1</version>
+    <namespace>Report</namespace>
+    <category>other</category>
+    <dependencies>
+        <owncloud min-version="9.0" />
+    </dependencies>
+</info>
