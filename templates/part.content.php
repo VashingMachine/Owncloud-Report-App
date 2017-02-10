@@ -1,4 +1,4 @@
-<p>Hello World <?php p($_['user']); ?></p>
+<p>Hello World <?php p(count($_['data'])); ?></p>
 
 <p><button id="hello">click me</button></p>
 
@@ -19,6 +19,19 @@ Ajax response: <div id="echo-result"></div>
 			<?php p($param)?>
 		</td>
 		<?php endforeach;?>
+	</tr>
+	<?php endforeach;?>
+</table>
+
+<table>
+	<?php foreach ($_['data'] as $record):?>
+	
+	<tr class="record">
+		
+		<td class="cell">
+			<?php p($record)?>
+		</td>
+		
 	</tr>
 	<?php endforeach;?>
 </table>

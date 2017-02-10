@@ -42,7 +42,7 @@ class PageController extends Controller {
 	 */
 	public function index() {
 		$files = $this->service->generateReport();
-		$params = ['user' => $this->userId,
+		$params = [
 				   'data' => $files,
 		];
 		
