@@ -12,6 +12,7 @@ Ajax response: <div id="echo-result"></div>
 <div id="report-table">
 <table>
 	<?php foreach ($_['data'] as $record):?>
+	
 	<tr class="record">
 		<?php foreach ($record as $param):?>
 		<td class="cell">

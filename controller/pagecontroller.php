@@ -15,19 +15,19 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
-use OCA\Report\Db\FilesFinder;
+use OCA\Report\Service\ReportService;
 
 
 class PageController extends Controller {
 
 
 	private $userId;
-	private $finder;
+	private $service;
 	
-	public function __construct($AppName, IRequest $request, FilesFinder $finder, $UserId){
+	public function __construct($AppName, IRequest $request, ReportService $service, $UserId){
 		parent::__construct($AppName, $request);
 		$this->userId = $UserId;
-		$this->finder = $finder;
+		$this->service = $service;
 	}
 
 	/**
@@ -41,7 +41,7 @@ class PageController extends Controller {
 	 * @NoCSRFRequired
 	 */
 	public function index() {
-		$files = $this->finder->findAll();
+		$files = $this->service->generateReport();
 		$params = ['user' => $this->userId,
 				   'data' => $files,
 		];
