@@ -12,29 +12,47 @@ Ajax response: <div id="echo-result"></div>
 <div id="report-table">
 <table>
 	<?php foreach ($_['data'] as $record):?>
-	
-	<tr class="record">
-		<?php foreach ($record as $param):?>
-		<td class="cell">
-			<?php p($param)?>
-		</td>
-		<?php endforeach;?>
-	</tr>
+		<tr>
+			<td>
+				<?php p($record['owner'])?>
+			</td>
+			<td>
+				<?php p($record['name'])?>
+			</td>
+			<td>
+				<?php p($record['link/path'])?>
+			</td>
+			<td>
+				<table class="internal">
+				<?php foreach ($record['shareGroup'] as $index => $shareMember): ?>
+					<tr>
+						<td>
+							<?php p($shareMember)?>
+						<td>
+						<td>
+							<?php p($record['permissions'][$index]['read'])?>
+						</td>
+						<td>
+							<?php p($record['permissions'][$index]['update'])?>
+						</td>
+						<td>
+							<?php p($record['permissions'][$index]['create'])?>
+						</td>
+						<td>
+							<?php p($record['permissions'][$index]['delete'])?>
+						</td>
+						<td>
+							<?php p($record['permissions'][$index]['share'])?>
+						</td>
+					<tr>
+				<?php endforeach;?>
+				</table>
+			</td>
+		<tr>
 	<?php endforeach;?>
 </table>
 
-<table>
-	<?php foreach ($_['data'] as $record):?>
-	
-	<tr class="record">
-		
-		<td class="cell">
-			<?php p($record)?>
-		</td>
-		
-	</tr>
-	<?php endforeach;?>
-</table>
+
 	
 
 </div>

@@ -5,6 +5,17 @@
 .record {
 	background-color: inherit;
 }
-.cell {
+td {
+	
 	padding: 5px;
+	border: 1px solid;
+}
+
+.internal {
+	float: right;
+}
+
+.internal td {
+	text-align: right;
+	border: 0px;
 }
