@@ -19,3 +19,8 @@ td {
 	text-align: right;
 	border: 0px;
 }
+
+.toggle {
+	display: none;
+	
+}

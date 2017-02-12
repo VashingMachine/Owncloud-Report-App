@@ -6,6 +6,7 @@ use OCP\IUserManager;
 use OCP\IUser;
 use OCP\IServerContainer;
 use OCP\Share\IManager;
+use OCP\IGroupManager;
 
 
 class ReportService{
@@ -13,14 +14,19 @@ class ReportService{
 	private $users;
 	private $usersFolders;
 	private $userManager;
+	private $groupManager;
 	private $shareManager;
 	private $shares;
+	private $groups;
 	
 	public function __construct(IServerContainer $serverContainer, IManager $shareManager){
 		$this->serverContainer = $serverContainer;
 		$this->shareManager = $shareManager;
 		$this->userManager = $this->serverContainer->getUserManager();
+		$this->groupManager = $this->serverContainer->getGroupManager();
+		
 		$this->users = $this->getUsers(); //this need to be execeute first
+		$this->groups = $this->getUsersByGroups();
 		$this->shares = $this->getSharesByUsers();
 		$this->usersFolders = $this->getUsersFolders();
 	}
@@ -42,6 +48,17 @@ class ReportService{
 		}
 		
 		return $this->shares;
+	}
+	
+	public function getUsersByGroups(){
+		$table = [];
+		foreach ($this->groupManager->search() as $group){
+			$table[$group->getGID()] = [];
+			foreach ($group->getUsers() as $user){
+				array_push($table[$group->getGID()], $user->getDisplayName());
+			}
+		}
+		return $table;
 	}
 	
 	private function getUsers(){
@@ -88,6 +105,8 @@ class ReportService{
 				'share' => $decode[$temp[4]]
 		];
 	}
+	
+	
 	
 	private function constructReport(){
 		$table = [];

@@ -9,6 +9,7 @@
 
 Ajax response: <div id="echo-result"></div>
 
+
 <div id="report-table">
 <table>
 	<?php foreach ($_['data'] as $record):?>
@@ -27,7 +28,20 @@ Ajax response: <div id="echo-result"></div>
 				<?php foreach ($record['shareGroup'] as $index => $shareMember): ?>
 					<tr>
 						<td>
-							<?php p($shareMember)?>
+							<?php if(!is_null($_['groups'][$shareMember])):?>
+							<a class="toggle-triger">
+								<?php p($shareMember)?>
+							</a>
+							<ol class="toggle">
+								<?php foreach ($_['groups'][$shareMember] as $member):?>
+								<li>
+									<?php p($member)?>
+								</li>
+								<?php endforeach;?>
+							</ol>
+							<?php else:?>
+								<?php p($shareMember)?>
+							<?php endif;?>
 						<td>
 						<td>
 							<?php p($record['permissions'][$index]['read'])?>

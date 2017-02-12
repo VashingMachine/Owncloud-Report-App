@@ -42,8 +42,10 @@ class PageController extends Controller {
 	 */
 	public function index() {
 		$files = $this->service->generateReport();
+		$groups = $this->service->getUsersByGroups();
 		$params = [
 				   'data' => $files,
+				   'groups' => $groups
 		];
 		
 		return new TemplateResponse('report', 'main', $params);  // templates/main.php
