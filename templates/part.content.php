@@ -1,17 +1,24 @@
-<p>Hello World <?php p(count($_['data'])); ?></p>
-
-<p><button id="hello">click me</button></p>
-
-<p><textarea id="echo-content">
-	Send this as ajax
-</textarea></p>
-<p><button id="echo">Send ajax request</button></p>
-
-Ajax response: <div id="echo-result"></div>
-
+<p>Znaleziono tyle plików w tej chmurze: <?php p(count($_['data'])); ?></p>
 
 <div id="report-table">
 <table>
+	<tr>
+		<th>
+			Użytkownik
+		</th>
+		<th>
+			Nazwa pliku
+		</th>
+		<th>
+			Ścieżka do pliku
+		</th>
+		<th>
+			Link
+		</th>
+		<th>
+			Komu udostępnia : /odczyt/zapis/tworzenie/usuwanie/udostępnianie
+		</th>
+	</tr>
 	<?php foreach ($_['data'] as $record):?>
 		<tr>
 			<td>
@@ -21,7 +28,18 @@ Ajax response: <div id="echo-result"></div>
 				<?php p($record['name'])?>
 			</td>
 			<td>
-				<?php p($record['link/path'])?>
+				<a href="<?php p($record['link/path']['link'])?>">
+					<?php p($record['link/path']['path'])?> 
+				</a>
+			</td>
+			<td>
+			<?php if(!is_null($record['publicLink'])):?>
+				<a href="<?php p($record['publicLink'])?>">
+					Link
+				</a>
+			<?php else:?>
+					---
+			<?php endif;?>
 			</td>
 			<td>
 				<table class="internal">
@@ -60,14 +78,13 @@ Ajax response: <div id="echo-result"></div>
 						</td>
 					<tr>
 				<?php endforeach;?>
+				
 				</table>
+			
 			</td>
 		<tr>
 	<?php endforeach;?>
 </table>
-
-
-	
 
 </div>
 

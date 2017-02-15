@@ -7,6 +7,7 @@ use OCP\IUser;
 use OCP\IServerContainer;
 use OCP\Share\IManager;
 use OCP\IGroupManager;
+use OCP\IURLGenerator;
 
 
 class ReportService{
@@ -16,14 +17,16 @@ class ReportService{
 	private $userManager;
 	private $groupManager;
 	private $shareManager;
+	private $urlGenerator;
 	private $shares;
 	private $groups;
 	
-	public function __construct(IServerContainer $serverContainer, IManager $shareManager){
+	public function __construct(IServerContainer $serverContainer, IManager $shareManager, IURLGenerator $urlGenerator){
 		$this->serverContainer = $serverContainer;
 		$this->shareManager = $shareManager;
 		$this->userManager = $this->serverContainer->getUserManager();
 		$this->groupManager = $this->serverContainer->getGroupManager();
+		$this->urlGenerator = $urlGenerator;
 		
 		$this->users = $this->getUsers(); //this need to be execeute first
 		$this->groups = $this->getUsersByGroups();
@@ -117,6 +120,21 @@ class ReportService{
 					continue;
 				}
 				
+				$path = $folder->getRelativePath($file->getPath());
+				
+				$info = pathinfo($path);
+				$link = $this->urlGenerator->linkToRoute(
+						'files.view.index',
+						[
+								'dir' => $info['dirname'],
+								'scrollto' => $info['basename'],
+						]
+						);
+				
+				$path_and_link = ['path' => $file->getPath(),
+								  'link' => $link];
+				
+				$publicLink = null;
 				$shareGroup = [$this->userManager->get($userId)->getDisplayName()];
 				$permissions = [$this->permissionResolver($file->getPermissions())];
 				
@@ -124,6 +142,8 @@ class ReportService{
 					$sharemember = $share->getSharedWith();
 					if(is_null($sharemember)){
 						$sharemember = 'link';
+						$publicLink = $this->urlGenerator->getAbsoluteURL('/index.php/s/') . $share->getToken();
+						//$path_and_link['link'] = $share->getToken();
 					}
 					array_push($shareGroup, $sharemember);
 					array_push($permissions, $this->permissionResolver($share->getPermissions()));
@@ -131,9 +151,10 @@ class ReportService{
 				
 				array_push($table, ['owner' => $this->userManager->get($userId)->getDisplayName(),
 									'name' => $file->getName(),
-									'link/path' => $file->getPath(),
+									'link/path' => $path_and_link,
 									'shareGroup' => $shareGroup,
-									'permissions' => $permissions
+									'permissions' => $permissions,
+									'publicLink' => $publicLink
 				]);
 			}
 		}
