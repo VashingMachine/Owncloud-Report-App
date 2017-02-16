@@ -2,12 +2,12 @@
 namespace OCA\Report\Service;
 
 use OCP\Files\Folder;
-use OCP\IUserManager;
 use OCP\IUser;
 use OCP\IServerContainer;
 use OCP\Share\IManager;
-use OCP\IGroupManager;
 use OCP\IURLGenerator;
+use OC\Files\Node\File;
+use OC\Files\Node\Node;
 
 
 class ReportService{
@@ -34,6 +34,21 @@ class ReportService{
 		$this->usersFolders = $this->getUsersFolders();
 	}
 	
+	public function generateReport(){
+		return $this->constructReport();
+	}
+	
+	public function getUsersByGroups(){
+		$table = [];
+		foreach ($this->groupManager->search() as $group){
+			$table[$group->getGID()] = [];
+			foreach ($group->getUsers() as $user){
+				array_push($table[$group->getGID()], $user->getDisplayName());
+			}
+		}
+		return $table;
+	}
+	
 	private function getSharesByUsers(){
 		$this->shares = [];
 		foreach($this->users as $user){
@@ -53,17 +68,6 @@ class ReportService{
 		return $this->shares;
 	}
 	
-	public function getUsersByGroups(){
-		$table = [];
-		foreach ($this->groupManager->search() as $group){
-			$table[$group->getGID()] = [];
-			foreach ($group->getUsers() as $user){
-				array_push($table[$group->getGID()], $user->getDisplayName());
-			}
-		}
-		return $table;
-	}
-	
 	private function getUsers(){
 		$users = [];
 		$this->serverContainer->getUserManager()->callForAllUsers(function(IUser $user) use (&$users) {
@@ -80,7 +84,7 @@ class ReportService{
 		return $folders;
 	}
 	
-	private function searchInShares($userId, $file=null){
+	private function searchInShares($userId, Node $file=null){
 		$this->shares = [];
 		foreach([\OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_LINK, \OCP\Share::SHARE_TYPE_REMOTE] as $shareType) {
 			$offset = 0;
@@ -99,7 +103,7 @@ class ReportService{
 	private function permissionResolver($number){
 		$temp = decbin($number);
 		$temp = array_reverse(str_split($temp));
-		$decode = ['0' => 'no', '1' => 'yes', null => 'no'];
+		$decode = ['0' => 'nie', '1' => 'tak', null => 'nie'];
 		return [
 				'read' => $decode[$temp[0]],
 				'update' => $decode[$temp[1]],
@@ -143,7 +147,6 @@ class ReportService{
 					if(is_null($sharemember)){
 						$sharemember = 'link';
 						$publicLink = $this->urlGenerator->getAbsoluteURL('/index.php/s/') . $share->getToken();
-						//$path_and_link['link'] = $share->getToken();
 					}
 					array_push($shareGroup, $sharemember);
 					array_push($permissions, $this->permissionResolver($share->getPermissions()));
@@ -162,8 +165,6 @@ class ReportService{
 	}
 	
 	
-	public function generateReport(){
-		return $this->constructReport();
-	}
+	
 	
 }

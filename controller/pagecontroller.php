@@ -20,7 +20,6 @@ use OCA\Report\Service\ReportService;
 
 class PageController extends Controller {
 
-
 	private $userId;
 	private $service;
 	
@@ -50,14 +49,5 @@ class PageController extends Controller {
 		
 		return new TemplateResponse('report', 'main', $params);  // templates/main.php
 	}
-
-	/**
-	 * Simply method that posts back the payload of the request
-	 * @NoAdminRequired
-	 */
-	public function doEcho($echo) {
-		return new DataResponse(['echo' => $echo]);
-	}
-
 
 }

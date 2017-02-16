@@ -12,25 +12,8 @@
 
 	$(document).ready(function () {
 		
-		
-		$('#hello').click(function () {
-			alert('Hello from your script file. I must have called a thousand times');
-		});
-		
 		$('.toggle-triger').click(function() {
 			$(this).next('ol.toggle').slideToggle();
-		});
-
-		$('#echo').click(function () {
-			var url = OC.generateUrl('/apps/report/echo');
-			var data = {
-				echo: $('#echo-content').val()
-			};
-
-			$.post(url, data).success(function (response) {
-				$('#echo-result').text(response.echo);
-			});
-
 		});
 	});
 

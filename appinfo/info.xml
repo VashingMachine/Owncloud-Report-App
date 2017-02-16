@@ -2,13 +2,13 @@
 <info>
     <id>report</id>
     <name>Report</name>
-    <description>My first ownCloud app</description>
+    <description>App for listing all files belonging to all users</description>
     <licence>AGPL</licence>
     <author>Dariusz Kwiatkowski</author>
-    <version>0.0.1</version>
+    <version>0.0.3</version>
     <namespace>Report</namespace>
-    <category>other</category>
+    <category></category>
     <dependencies>
-        <owncloud min-version="9.0" />
+        <owncloud min-version="8.0" />
     </dependencies>
 </info>
