@@ -7,7 +7,7 @@ It's simply app to create table for all files that belongs to all users with bas
 
 ##Instalation
 
-Place this folder app in **owncloud/apps/**, then anable this in Apps manager through web or using occ.
+Place content of this app in **owncloud/apps/report/**, then anable this in Apps manager through web or using occ.
 
 ## Building the app
 
