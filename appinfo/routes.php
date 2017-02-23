@@ -20,5 +20,6 @@
 return [
     'routes' => [
 	   ['name' => 'page#index', 'url' => '/', 'verb' => 'GET'],
+       ['name' => 'page#indexPage', 'url' => '/page/{id}', 'verb' => 'GET']
     ]
 ];

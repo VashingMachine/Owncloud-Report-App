@@ -1,6 +1,27 @@
 
 <div id="report-content">
-<p><?php p($l->t('Znaleziono tyle plików w tej chmurze: ' . count($_['data']))); ?></p>
+<p class="score-info"><?php p($l->t('Pliki: ' . $_['start_index'] . '-' . $_['end_index'] . ' z ' . $_['total_files'])); ?></p>
+
+
+<div id="navigation-pages">
+	
+	<?php if($_['current_page'] > 1):?>
+			<?php for($n = $_['current_page'] - 5, $k = 0; $n < $_['current_page'] and $k < 5; $n++, $k++):?>
+				<?php if($n > 0):?>
+					<a href="/index.php/apps/report/page/<?php p($n)?>"><button><?php p($n)?></button> </a>
+				<?php endif;?>
+			<?php endfor;?>
+	<?php endif;?>
+	
+	<?php for($i = $_['current_page'], $k = 0; $i <= $_['possible_pages'] and $k <= 5; $i++, $k++):?>
+			<?php if($i === $_['current_page']):?>
+				<a class="selected" href="/index.php/apps/report/page/<?php p($i)?>"><button><?php p($i)?></button> </a>
+			<?php else:?>
+			<a href="/index.php/apps/report/page/<?php p($i)?>"><button><?php p($i)?></button> </a>
+			<?php endif;?>
+	<?php endfor;?>
+	
+</div>
 
 <div id="report-table">
 <table>
