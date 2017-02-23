@@ -53,7 +53,7 @@ class PageController extends Controller {
 	 * @param int $id
 	 */
 	public function indexPage($id){
-		$paging = 10;
+		$paging = 100;
 		
 		$files = $this->service->generateReport();
 		$totalFiles = count($files);
